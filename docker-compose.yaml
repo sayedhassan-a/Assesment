@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  org:
+    container_name: org
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    env_file:
+      - .env
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+networks:
+  common_network:
+    driver: bridge
+
+volumes:
+  mongo_data:
+
